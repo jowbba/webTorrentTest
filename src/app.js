@@ -23,12 +23,22 @@ client.on('error', err => {
 })
 
 
-var downloadPath = path.normalize('E:\\webTorrentTest\\download')
+var tempPath = path.normalize('E:\\webTorrentTest\\temp')
 // schedule.addTorrent(torrentPath, downloadPath)
-let torrentId = schedule.addMagnet(magnet, downloadPath)
+let torrentId = schedule.addMagnet(magnet2, tempPath)
+setTimeout(() => {
+	console.log('begin pause')
+	schedule.pause(torrentId)
+},30000)
+
+setTimeout(() => {
+	console.log('begin resume')
+	schedule.resume(torrentId)
+},60000)
+
 setInterval(() => {
-	console.log(schedule.getSummary(torrentId))
-},3000)
+	console.log(schedule.getSummary(), schedule.getFinish())
+},4000)
 
 
 return
