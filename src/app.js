@@ -3,7 +3,6 @@ var fs = require('fs')
 var WebTorrent = require('webtorrent')
 var client = new WebTorrent()
 var Schedule = require('./schedule')
-var schedule = new Schedule()
 
 var magnet = 'magnet:?xt=urn:btih:975a12da9b266113ba162620f8c0c68189deab31&dn=Despicable.Me.3.2017.1080p.WEBRip.x264.AAC2.0-SHITBOX&xl=-181621437&tr=http://tracker.trackerfix.com:80/announce&tr=udp://9.rarbg.me:2710/announce&tr=udp://9.rarbg.to:2710/announce'
 var torrentPath = path.normalize('E:\\下载\\【BT吧】[1080p]-神偷奶爸3-卑鄙的我3-坏蛋奖门人3(港)-3.83GB.torrent')
@@ -24,20 +23,21 @@ client.on('error', err => {
 
 
 var tempPath = path.normalize('E:\\webTorrentTest\\temp')
-// schedule.addTorrent(torrentPath, downloadPath)
-let torrentId = schedule.addMagnet(magnet2, tempPath)
+var schedule = new Schedule(tempPath)
+schedule.addTorrent(torrentPath, tempPath)
+// let torrentId = schedule.addMagnet(magnet2, tempPath)
 setTimeout(() => {
-	console.log('begin pause')
-	schedule.pause(torrentId)
+	// console.log('begin pause')
+	// schedule.pause(torrentId)
 },30000)
 
 setTimeout(() => {
-	console.log('begin resume')
-	schedule.resume(torrentId)
+	// console.log('begin resume')
+	// schedule.resume(torrentId)
 },60000)
 
 setInterval(() => {
-	console.log(schedule.getSummary(), schedule.getFinish())
+	// console.log(schedule.getSummary(), schedule.getFinish())
 },4000)
 
 
