@@ -28,7 +28,8 @@ class Schedule extends EventEmitter {
 			let name = this.name
 			let torrentPath = this.torrentPath
 			let magnetURL = this.magnetURL
-			return {infoHash, timeRemaining, downloaded, downloadSpeed, progress, numPeers, path, name, torrentPath, magnetURL}
+			let downloadPath = this.downloadPath
+			return {infoHash, timeRemaining, downloaded, downloadSpeed, progress, numPeers, path, name, torrentPath, magnetURL, downloadPath}
 		}
 		this.init()
 	}
@@ -40,8 +41,8 @@ class Schedule extends EventEmitter {
 			let tasks = JSON.parse(fs.readFileSync(this.catchPath))
 			this.downloaded = tasks.downloaded
 			tasks.downloading.forEach((file, index) => {
-				if (file.torrentPath) this.addTorrent(file.torrentPath, file.path)
-				else if (file.magnetURL) this.addMagnet(file.magnetURL, file.path)
+				if (file.torrentPath) this.addTorrent(file.torrentPath, file.downloadPath)
+				else if (file.magnetURL) this.addMagnet(file.magnetURL, file.downloadPath)
 			})
 		}catch(e) {
 			console.log('Error in init ', e)
@@ -67,6 +68,7 @@ class Schedule extends EventEmitter {
 	async createTorrent(torrentSource, downloadPath, torrentPath) {
 		let torrent = this.client.add(torrentSource, {path: this.tempPath})
 		if (this.downloading.findIndex(item => item.infoHash == torrent.infoHash) !== -1) return console.log('torrent exist now')
+		torrent.downloadPath = downloadPath
 		torrent.log = this.log
 		torrent.state = 'downloading'
 		torrent.torrentPath = torrentPath?torrentPath:null
@@ -78,6 +80,7 @@ class Schedule extends EventEmitter {
 			torrent.state = 'downloaded'
 			// stop torrent uploading & move to downloaded array
 			torrent.destroy(async () => {
+				fs.renameSync(path.join(torrent.path, torrent.name), path.join(torrent.downloadPath, torrent.name))
 				let index = this.downloading.indexOf(torrent)
 				if (index == -1) throw new Error('torrent is not exist in downloading array')
 				this.downloading.splice(index,1)
