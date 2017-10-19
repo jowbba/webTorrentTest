@@ -26,11 +26,11 @@ var id
 var tempPath = path.normalize('E:\\webTorrentTest\\temp')
 let downloadPath = path.normalize('E:\\下载')
 var schedule = new Schedule(tempPath)
-// schedule.addTorrent(torrentPath, tempPath).then(data => {
+// schedule.addTorrent(torrentPath, downloadPath).then(data => {
 // 	id = data
 // })
 // schedule.addMagnet(magnet2, downloadPath)
-// schedule.addMagnet(magnet3, tempPath)
+// schedule.addMagnet(magnet3, downloadPath)
 setTimeout(() => {
 	// console.log('begin pause')
 	// schedule.pause(torrentId)
