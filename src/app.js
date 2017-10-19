@@ -15,11 +15,11 @@ var torrentBuffer2 = fs.readFileSync(torrentPath2)
 
 
 client.on('torrent', () => {
-	console.log('client trigger torrent ')
+    console.log('client trigger torrent ')
 })
 
 client.on('error', err => {
-	console.log('client trigger error')
+    console.log('client trigger error')
 })
 var id 
 
@@ -32,18 +32,18 @@ var schedule = new Schedule(tempPath)
 // schedule.addMagnet(magnet2, downloadPath)
 // schedule.addMagnet(magnet3, downloadPath)
 setTimeout(() => {
-	// console.log('begin pause')
-	// schedule.pause(torrentId)
-	// schedule.destory(id)
+    // console.log('begin pause')
+    // schedule.pause(torrentId)
+    // schedule.destory(id)
 },30000)
 
 setTimeout(() => {
-	// console.log('begin resume')
-	// schedule.resume(torrentId)
+    // console.log('begin resume')
+    // schedule.resume(torrentId)
 },60000)
 
 setInterval(() => {
-	console.log(schedule.getSummary())
+    console.log(schedule.getSummary())
 },5000)
 
 
